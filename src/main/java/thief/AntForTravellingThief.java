@@ -1,7 +1,9 @@
-package isula.aco.tsp;
+package thief;
 
 import isula.aco.Ant;
+import isula.aco.tsp.EdgeWeightType;
 import org.apache.commons.math3.ml.distance.EuclideanDistance;
+import thief.TravellingThiefEnvironment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +13,13 @@ import java.util.Random;
  * An specialized Ant for building solutions for the TSP problem. It is designed according the algorithm described in
  * Section 6.3 of Clever Algorithms by Jason Brownlee.
  */
-public class AntForTsp extends Ant<Integer, TspEnvironment> {
+public class AntForTravellingThief extends Ant<Integer, TravellingThiefEnvironment> {
 
     private static final double DELTA = Float.MIN_VALUE;
     private final int numberOfCities;
     private int initialReference;
 
-    public AntForTsp(int numberOfCities) {
+    public AntForTravellingThief(int numberOfCities) {
         super();
         this.numberOfCities = numberOfCities;
         this.setSolution(new ArrayList<>());
@@ -36,7 +38,7 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
      * @return True if the solution is ready.
      */
     @Override
-    public boolean isSolutionReady(TspEnvironment environment) {
+    public boolean isSolutionReady(TravellingThiefEnvironment environment) {
         return getCurrentIndex() == environment.getNumberOfCities();
     }
 
@@ -48,12 +50,12 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
      * @return Total distance.
      */
     @Override
-    public double getSolutionCost(TspEnvironment environment) {
+    public double getSolutionCost(TravellingThiefEnvironment environment) {
         return getTotalDistance(getSolution(), environment);
     }
 
     @Override
-    public double getSolutionCost(TspEnvironment environment, List<Integer> solution) {
+    public double getSolutionCost(TravellingThiefEnvironment environment, List<Integer> solution) {
         return getTotalDistance(solution, environment);
     }
 
@@ -68,7 +70,7 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
      * @return Heuristic contribution.
      */
     @Override
-    public Double getHeuristicValue(Integer solutionComponent, Integer positionInSolution, TspEnvironment environment) {
+    public Double getHeuristicValue(Integer solutionComponent, Integer positionInSolution, TravellingThiefEnvironment environment) {
         Integer lastComponent = this.initialReference;
         if (getCurrentIndex() > 0) {
             lastComponent = this.getSolution().get(getCurrentIndex() - 1);
@@ -86,7 +88,7 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
      */
     @Override
     public Double getPheromoneTrailValue(Integer solutionComponent, Integer positionInSolution,
-                                         TspEnvironment environment) {
+                                         TravellingThiefEnvironment environment) {
 
         Integer previousComponent = this.initialReference;
         if (positionInSolution > 0) {
@@ -103,15 +105,22 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
      * @param environment Environment instance with problem information.
      */
     @Override
-    public List<Integer> getNeighbourhood(TspEnvironment environment) {
+    public List<Integer> getNeighbourhood(TravellingThiefEnvironment environment) {
         List<Integer> neighbourhood = new ArrayList<>();
 
-        for (int cityIndex = 0; cityIndex < environment.getNumberOfCities(); cityIndex += 1) {
-            if (!this.isNodeVisited(cityIndex)) {
-                neighbourhood.add(cityIndex);
+        //modified by sarah, if neighbourhood is the same size as the number of cities it means that the ant hasn't visited anywhere yet
+        //so in this case set the neighbour to the first city to make sure it gets visited first
+        if(this.getVisited().size() == 0){
+            //the ant hasn't visited anywhere yet, so only give it city 0 to select from
+            neighbourhood.add(0);
+        }
+        else {
+            for (int cityIndex = 0; cityIndex < environment.getNumberOfCities(); cityIndex += 1) {
+                if (!this.isNodeVisited(cityIndex)) {
+                    neighbourhood.add(cityIndex);
+                }
             }
         }
-
         return neighbourhood;
     }
 
@@ -126,7 +135,7 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
      */
     @Override
     public void setPheromoneTrailValue(Integer solutionComponent, Integer positionInSolution,
-                                       TspEnvironment environment, Double value) {
+                                       TravellingThiefEnvironment environment, Double value) {
         Integer previousComponent = this.initialReference;
         if (positionInSolution > 0) {
             previousComponent = getSolution().get(positionInSolution - 1);
@@ -146,7 +155,7 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
      * @param environment Environment with coordinate information.
      * @return Total distance.
      */
-    public static double getTotalDistance(List<Integer> route, TspEnvironment environment) {
+    public static double getTotalDistance(List<Integer> route, TravellingThiefEnvironment environment) {
         double totalDistance = 0.0;
 
         for (int solutionIndex = 1; solutionIndex < route.size(); solutionIndex += 1) {
@@ -167,7 +176,7 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
      * @param environment  Environment with Coordinate information.
      * @return Distance between these cities.
      */
-    public static double getDistance(int anIndex, int anotherIndex, TspEnvironment environment) {
+    public static double getDistance(int anIndex, int anotherIndex, TravellingThiefEnvironment environment) {
         if (EdgeWeightType.EUCLIDEAN_DISTANCE.equals(environment.getEdgeWeightType())) {
             return getEuclideanDistance(anIndex, anotherIndex, environment.getProblemRepresentation());
         } else if (EdgeWeightType.PSEUDO_EUCLIDEAN_DISTANCE.equals(environment.getEdgeWeightType())) {

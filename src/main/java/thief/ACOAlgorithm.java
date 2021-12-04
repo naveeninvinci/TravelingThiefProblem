@@ -1,20 +1,16 @@
-package algorithms;
+package thief;
 
+import algorithms.Algorithm;
 import isula.aco.*;
 import isula.aco.algorithms.antsystem.OfflinePheromoneUpdate;
 import isula.aco.algorithms.antsystem.PerformEvaporation;
 import isula.aco.algorithms.antsystem.RandomNodeSelection;
 import isula.aco.algorithms.antsystem.StartPheromoneMatrix;
-import isula.aco.tsp.AntForTsp;
-import isula.aco.tsp.EdgeWeightType;
-import isula.aco.tsp.TspEnvironment;
+import isula.aco.tsp.*;
 import model.Solution;
 import model.TravelingThiefProblem;
-import tsp.isula.sample.AcoTspWithIsula;
-import tsp.isula.sample.TspProblemConfiguration;
 
 import javax.naming.ConfigurationException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -29,12 +25,12 @@ public class ACOAlgorithm implements Algorithm {
 
         double[][] problemRepresentation = problem.coordinates;
         EdgeWeightType edgeWeightType = EdgeWeightType.EUCLIDEAN_DISTANCE;
-        TspEnvironment environment = new TspEnvironment(problemRepresentation, edgeWeightType);
+        TravellingThiefEnvironment environment = new TravellingThiefEnvironment(edgeWeightType, problem);
 
-        TspProblemConfiguration configurationProvider = new TspProblemConfiguration(environment);
-        AntColony<Integer, TspEnvironment> colony = getAntColony(configurationProvider);
+        ThiefProblemConfiguration configurationProvider = new ThiefProblemConfiguration(environment);
+        AntColony<Integer, TravellingThiefEnvironment> colony = getAntColony(configurationProvider);
 
-        AcoProblemSolver<Integer, TspEnvironment> solver = new AcoProblemSolver<>();
+        AcoProblemSolver<Integer, TravellingThiefEnvironment> solver = new AcoProblemSolver<>();
         try {
             solver.initialize(environment, colony, configurationProvider);
         } catch (ConfigurationException e) {
@@ -47,7 +43,7 @@ public class ACOAlgorithm implements Algorithm {
 
         solver.getAntColony().addAntPolicies(new RandomNodeSelection<>());
         //this should be called after each ant has finished its tour
-        solver.getAntColony().addAntPolicies(new CreatePackingPlan<>());
+        solver.getAntColony().addAntPolicies(new PackingPlanCreator<>());
         try {
             solver.solveProblem();
         } catch (ConfigurationException e) {
@@ -76,13 +72,13 @@ public class ACOAlgorithm implements Algorithm {
      *
      * @return A daemon action that implements this procedure.
      */
-    private static DaemonAction<Integer, TspEnvironment> getPheromoneUpdatePolicy() {
-        return new OfflinePheromoneUpdate<Integer, TspEnvironment>() {
+    private static DaemonAction<Integer, TravellingThiefEnvironment> getPheromoneUpdatePolicy() {
+        return new OfflinePheromoneUpdate<Integer, TravellingThiefEnvironment>() {
             @Override
-            protected double getPheromoneDeposit(Ant<Integer, TspEnvironment> ant,
+            protected double getPheromoneDeposit(Ant<Integer, TravellingThiefEnvironment> ant,
                                                  Integer positionInSolution,
                                                  Integer solutionComponent,
-                                                 TspEnvironment environment,
+                                                 TravellingThiefEnvironment environment,
                                                  ConfigurationProvider configurationProvider) {
                 return 1 / ant.getSolutionCost(environment);
             }
@@ -95,11 +91,11 @@ public class ACOAlgorithm implements Algorithm {
      * @param configurationProvider Algorithm configuration.
      * @return Ant Colony instance.
      */
-    public static AntColony<Integer, TspEnvironment> getAntColony(final ConfigurationProvider configurationProvider) {
-        return new AntColony<Integer, TspEnvironment>(configurationProvider.getNumberOfAnts()) {
+    public static AntColony<Integer, TravellingThiefEnvironment> getAntColony(final ConfigurationProvider configurationProvider) {
+        return new AntColony<Integer, TravellingThiefEnvironment>(configurationProvider.getNumberOfAnts()) {
             @Override
-            protected Ant<Integer, TspEnvironment> createAnt(TspEnvironment environment) {
-                return new AntForTsp(environment.getNumberOfCities());
+            protected Ant<Integer, TravellingThiefEnvironment> createAnt(TravellingThiefEnvironment environment) {
+                return new AntForTravellingThief(environment.getNumberOfCities());
             }
         };
     }

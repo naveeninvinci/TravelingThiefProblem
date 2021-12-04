@@ -1,13 +1,13 @@
-package algorithms;
+package thief;
 
 import isula.aco.*;
 
 import java.util.List;
 
 
-public class CreatePackingPlan <C, E extends Environment> extends AntPolicy<C, E> {
+public class PackingPlanCreator<C, E extends Environment> extends AntPolicy<C, E> {
 
-    public CreatePackingPlan() { super(AntPolicyType.AFTER_SOLUTION_IS_READY);  }
+    public PackingPlanCreator() { super(AntPolicyType.AFTER_SOLUTION_IS_READY);  }
 
     @Override
     public boolean applyPolicy(E environment, ConfigurationProvider configurationProvider) {
@@ -16,6 +16,8 @@ public class CreatePackingPlan <C, E extends Environment> extends AntPolicy<C, E
         List<Integer> s = a.getSolution();
         System.out.println("solution" + s);
 
+        TravellingThiefEnvironment problem = (TravellingThiefEnvironment) environment;
+        System.out.println("no of items " + problem.getTravellingThiefProblem().numOfItems);
         return true;
     }
 

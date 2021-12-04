@@ -1,7 +1,5 @@
-import algorithms.ACOAlgorithm;
+import thief.ACOAlgorithm;
 import algorithms.Algorithm;
-import algorithms.ExhaustiveSearch;
-import algorithms.RandomLocalSearch;
 import model.Solution;
 import model.TravelingThiefProblem;
 
