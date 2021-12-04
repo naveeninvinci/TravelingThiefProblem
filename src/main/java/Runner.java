@@ -1,3 +1,4 @@
+import algorithms.ACOAlgorithm;
 import algorithms.Algorithm;
 import algorithms.ExhaustiveSearch;
 import algorithms.RandomLocalSearch;
@@ -22,7 +23,6 @@ class Runner {
         List<String> instanceToRun = Arrays.asList("test-example-n4");
         //List<String> instanceToRun = Competition.INSTANCES;
 
-
         for (String instance : instanceToRun) {
 
             // readProblem the problem from the file
@@ -36,8 +36,9 @@ class Runner {
             int numOfSolutions = Competition.numberOfSolutions(problem);
 
             // initialize your algorithm
-            Algorithm algorithm = new RandomLocalSearch(100);
+            //Algorithm algorithm = new RandomLocalSearch(100);
             //Algorithm algorithm = new ExhaustiveSearch();
+            Algorithm algorithm = new ACOAlgorithm();
 
             // use it to to solve the problem and return the non-dominated set
             List<Solution> nds = algorithm.solve(problem);

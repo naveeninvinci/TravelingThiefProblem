@@ -57,5 +57,9 @@ public class Solution {
         return pi.equals(other.pi) && z.equals(other.z);
     }
 
+    public String toString(){
+        String s = "Time: "+ this.time + "Profit: " + this.profit + "\nTour: " + this.pi + "\nPacking Plan: " + this.z;
+        return s;
+    }
 
 }

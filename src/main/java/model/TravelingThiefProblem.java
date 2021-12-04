@@ -98,6 +98,11 @@ public class TravelingThiefProblem {
             throw new RuntimeException("Thief must start at city 0!");
         }
 
+       // System.out.println(pi);
+       // System.out.println(z);
+       // System.out.println(this.itemsAtCity);
+       // System.out.println(this.cityOfItem);
+
         // the values that are evaluated in this function
         double time = 0;
         double profit = 0;
