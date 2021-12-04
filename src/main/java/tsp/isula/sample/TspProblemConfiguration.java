@@ -37,7 +37,9 @@ public class TspProblemConfiguration implements ConfigurationProvider {
     }
 
     public int getNumberOfAnts() {
+        //sarah
         return 30;
+        //return 1;
     }
 
     public double getEvaporationRatio() {
@@ -45,7 +47,9 @@ public class TspProblemConfiguration implements ConfigurationProvider {
     }
 
     public int getNumberOfIterations() {
+        //sarah
         return 100;
+        //return 2;
     }
 
 

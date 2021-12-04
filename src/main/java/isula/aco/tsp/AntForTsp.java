@@ -106,12 +106,19 @@ public class AntForTsp extends Ant<Integer, TspEnvironment> {
     public List<Integer> getNeighbourhood(TspEnvironment environment) {
         List<Integer> neighbourhood = new ArrayList<>();
 
-        for (int cityIndex = 0; cityIndex < environment.getNumberOfCities(); cityIndex += 1) {
-            if (!this.isNodeVisited(cityIndex)) {
-                neighbourhood.add(cityIndex);
+        //modified by sarah, if neighbourhood is the same size as the number of cities it means that the ant hasn't visited anywhere yet
+        //so in this case set the neighbour to the first city to make sure it gets visited first
+        if(this.getVisited().size() == 0){
+            //the ant hasn't visited anywhere yet, so only give it city 0 to select from
+            neighbourhood.add(0);
+        }
+        else {
+            for (int cityIndex = 0; cityIndex < environment.getNumberOfCities(); cityIndex += 1) {
+                if (!this.isNodeVisited(cityIndex)) {
+                    neighbourhood.add(cityIndex);
+                }
             }
         }
-
         return neighbourhood;
     }
 
