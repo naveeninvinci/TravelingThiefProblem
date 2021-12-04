@@ -46,6 +46,8 @@ public class ACOAlgorithm implements Algorithm {
         solver.addDaemonActions(getPheromoneUpdatePolicy());
 
         solver.getAntColony().addAntPolicies(new RandomNodeSelection<>());
+        //this should be called after each ant has finished its tour
+        solver.getAntColony().addAntPolicies(new CreatePackingPlan<>());
         try {
             solver.solveProblem();
         } catch (ConfigurationException e) {
