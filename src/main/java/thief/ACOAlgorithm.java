@@ -69,7 +69,12 @@ public class ACOAlgorithm implements Algorithm {
                                                  Integer solutionComponent,
                                                  TravellingThiefEnvironment environment,
                                                  ConfigurationProvider configurationProvider) {
-                return 1 / ant.getSolutionCost(environment);
+                //sarah return 1 / ant.getSolutionCost(environment);
+                AntForTravellingThief thiefAnt = (AntForTravellingThief)ant;
+                //want to maximise profit and minimise time
+                double pheromoneDeposit = (thiefAnt.getThiefSolution().profit)/(thiefAnt.getThiefSolution().time);
+                //System.out.println("%%%%%%%%%%%%%%%" + pheromoneDeposit);
+                return pheromoneDeposit;
             }
         };
     }
