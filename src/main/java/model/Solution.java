@@ -33,6 +33,9 @@ public class Solution {
      */
     public int getRelation(Solution other) {
         int val = 0;
+        //System.out.println("=====================");
+       // System.out.println(this.objectives);
+        //System.out.println(other.objectives);
         for (int i = 0; i < objectives.size(); i++) {
 
             if (objectives.get(i) < other.objectives.get(i)) {
@@ -45,6 +48,7 @@ public class Solution {
 
         }
 
+       // System.out.println("VAl" + val);
         return val;
 
     }
@@ -54,11 +58,12 @@ public class Solution {
      * @return True if tour and packing plan is equal
      */
     public boolean equalsInDesignSpace(Solution other) {
-        return pi.equals(other.pi) && z.equals(other.z);
+        boolean areEqual = pi.equals(other.pi) && z.equals(other.z);
+        return areEqual;
     }
 
     public String toString(){
-        String s = "Time: "+ this.time + "Profit: " + this.profit + "\nTour: " + this.pi + "\nPacking Plan: " + this.z;
+        String s = "=============SOLUTION ==================\nTime: "+ this.time + "\nProfit: " + this.profit + "\nTour: " + this.pi + "\nPacking Plan: " + this.z;
         return s;
     }
 

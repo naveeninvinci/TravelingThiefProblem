@@ -2,6 +2,7 @@ package thief;
 
 import isula.aco.Ant;
 import isula.aco.tsp.EdgeWeightType;
+import model.Solution;
 import org.apache.commons.math3.ml.distance.EuclideanDistance;
 import thief.TravellingThiefEnvironment;
 
@@ -17,18 +18,29 @@ public class AntForTravellingThief extends Ant<Integer, TravellingThiefEnvironme
 
     private static final double DELTA = Float.MIN_VALUE;
     private final int numberOfCities;
+    private final int numberOfItems;
     private int initialReference;
+    private Solution thiefSolution;
 
-    public AntForTravellingThief(int numberOfCities) {
+    public AntForTravellingThief(int numberOfCities, int numberOfItems) {
         super();
         this.numberOfCities = numberOfCities;
         this.setSolution(new ArrayList<>());
+        this.numberOfItems = numberOfItems;
     }
 
     @Override
     public void clear() {
         super.clear();
         this.initialReference = new Random().nextInt(this.numberOfCities);
+    }
+
+    public void setThiefSolution(Solution thiefSolution) {
+        this.thiefSolution = thiefSolution;
+    }
+
+    public Solution getThiefSolution() {
+        return this.thiefSolution;
     }
 
     /**
@@ -51,11 +63,18 @@ public class AntForTravellingThief extends Ant<Integer, TravellingThiefEnvironme
      */
     @Override
     public double getSolutionCost(TravellingThiefEnvironment environment) {
+        //sarah - this needs to be profit/time not distance can use the travellingthiefproblem.evaluate method
+        //to calculate
+        //return getTotalDistance(getSolution(), environment);
+        //System.out.println("solution " + getThiefSolution().toString());
+        //return thiefSolution.profit/thiefSolution.time;
         return getTotalDistance(getSolution(), environment);
     }
 
     @Override
     public double getSolutionCost(TravellingThiefEnvironment environment, List<Integer> solution) {
+        //return getTotalDistance(solution, environment);
+        //return thiefSolution.profit/thiefSolution.time;
         return getTotalDistance(solution, environment);
     }
 

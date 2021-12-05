@@ -30,7 +30,8 @@ public class ACOAlgorithm implements Algorithm {
         ThiefProblemConfiguration configurationProvider = new ThiefProblemConfiguration(environment);
         AntColony<Integer, TravellingThiefEnvironment> colony = getAntColony(configurationProvider);
 
-        AcoProblemSolver<Integer, TravellingThiefEnvironment> solver = new AcoProblemSolver<>();
+        //AcoProblemSolver<Integer, TravellingThiefEnvironment> solver = new AcoProblemSolver<>();
+        ThiefProblemSolver<Integer, TravellingThiefEnvironment> solver = new ThiefProblemSolver<>();
         try {
             solver.initialize(environment, colony, configurationProvider);
         } catch (ConfigurationException e) {
@@ -42,6 +43,7 @@ public class ACOAlgorithm implements Algorithm {
         solver.addDaemonActions(getPheromoneUpdatePolicy());
 
         solver.getAntColony().addAntPolicies(new RandomNodeSelection<>());
+
         //this should be called after each ant has finished its tour
         solver.getAntColony().addAntPolicies(new PackingPlanCreator<>());
         try {
@@ -50,20 +52,7 @@ public class ACOAlgorithm implements Algorithm {
             e.printStackTrace();
         }
 
-
-        List<java.lang.Integer> tour = solver.getBestSolution();
-
-        //generate packing list of all ones just for now
-        List<java.lang.Boolean> packingPlan = new ArrayList<>(problem.numOfItems);
-
-        for (int i = 1; i <= problem.numOfItems; i++) {
-            packingPlan.add(Boolean.TRUE);
-        }
-        Solution singleSolution = problem.evaluate(tour, packingPlan);
-        logger.info(singleSolution.toString());
-        solutions.add(singleSolution);
-
-        return solutions;
+        return solver.getBestSolutions();
 
     }
 
@@ -95,7 +84,7 @@ public class ACOAlgorithm implements Algorithm {
         return new AntColony<Integer, TravellingThiefEnvironment>(configurationProvider.getNumberOfAnts()) {
             @Override
             protected Ant<Integer, TravellingThiefEnvironment> createAnt(TravellingThiefEnvironment environment) {
-                return new AntForTravellingThief(environment.getNumberOfCities());
+                return new AntForTravellingThief(environment.getNumberOfCities(), environment.getTravellingThiefProblem().numOfItems);
             }
         };
     }
