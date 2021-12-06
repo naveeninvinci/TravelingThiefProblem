@@ -47,7 +47,7 @@ public class ThiefProblemConfiguration implements ConfigurationProvider {
     public int getNumberOfIterations() {
         //sarah
         //return 1;
-        return 100;
+        return 500;
     }
 
 
