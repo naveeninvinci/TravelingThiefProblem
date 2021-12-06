@@ -69,11 +69,10 @@ public class ACOAlgorithm implements Algorithm {
                                                  Integer solutionComponent,
                                                  TravellingThiefEnvironment environment,
                                                  ConfigurationProvider configurationProvider) {
-                //sarah return 1 / ant.getSolutionCost(environment);
+                //return 1 / ant.getSolutionCost(environment);
                 AntForTravellingThief thiefAnt = (AntForTravellingThief)ant;
                 //want to maximise profit and minimise time
-                double pheromoneDeposit = (thiefAnt.getThiefSolution().profit)/(thiefAnt.getThiefSolution().time);
-                //System.out.println("%%%%%%%%%%%%%%%" + pheromoneDeposit);
+                double pheromoneDeposit = thiefAnt.getThiefSolution().profit/thiefAnt.getThiefSolution().time;
                 return pheromoneDeposit;
             }
         };
@@ -89,7 +88,7 @@ public class ACOAlgorithm implements Algorithm {
         return new AntColony<Integer, TravellingThiefEnvironment>(configurationProvider.getNumberOfAnts()) {
             @Override
             protected Ant<Integer, TravellingThiefEnvironment> createAnt(TravellingThiefEnvironment environment) {
-                return new AntForTravellingThief(environment.getNumberOfCities(), environment.getTravellingThiefProblem().numOfItems);
+                return new AntForTravellingThief(environment.getNumberOfCities());
             }
         };
     }

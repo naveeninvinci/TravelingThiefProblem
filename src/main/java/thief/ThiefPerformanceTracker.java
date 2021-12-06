@@ -83,13 +83,13 @@ public class ThiefPerformanceTracker<C, E extends Environment> extends Performan
         Boolean isAdded = add(bestThiefSolution);
 
         if(isAdded) {
-            logger.info("Added solution: " + bestThiefSolution.toString());
+            //logger.info("Added solution: " + bestThiefSolution.toString());
         }
         else{
-            logger.info("Did not add solution: " + bestThiefSolution.toString());
+            //logger.info("Did not add solution: " + bestThiefSolution.toString());
         }
 
-        logger.info("Best solutions " + this.getBestSolutions());
+       // logger.info("Best solutions " + this.getBestSolutions());
         logger.info("Best solutions size " + this.getBestSolutions().size());
     }
 

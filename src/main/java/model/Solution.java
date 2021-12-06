@@ -33,9 +33,7 @@ public class Solution {
      */
     public int getRelation(Solution other) {
         int val = 0;
-        //System.out.println("=====================");
-       // System.out.println(this.objectives);
-        //System.out.println(other.objectives);
+
         for (int i = 0; i < objectives.size(); i++) {
 
             if (objectives.get(i) < other.objectives.get(i)) {
@@ -48,7 +46,6 @@ public class Solution {
 
         }
 
-       // System.out.println("VAl" + val);
         return val;
 
     }

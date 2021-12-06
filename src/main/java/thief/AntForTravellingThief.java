@@ -4,8 +4,6 @@ import isula.aco.Ant;
 import isula.aco.tsp.EdgeWeightType;
 import model.Solution;
 import org.apache.commons.math3.ml.distance.EuclideanDistance;
-import thief.TravellingThiefEnvironment;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,21 +16,22 @@ public class AntForTravellingThief extends Ant<Integer, TravellingThiefEnvironme
 
     private static final double DELTA = Float.MIN_VALUE;
     private final int numberOfCities;
-    private final int numberOfItems;
     private int initialReference;
     private Solution thiefSolution;
 
-    public AntForTravellingThief(int numberOfCities, int numberOfItems) {
+    public AntForTravellingThief(int numberOfCities) {
         super();
         this.numberOfCities = numberOfCities;
         this.setSolution(new ArrayList<>());
-        this.numberOfItems = numberOfItems;
     }
 
     @Override
     public void clear() {
         super.clear();
-        this.initialReference = new Random().nextInt(this.numberOfCities);
+        //this.initialReference = new Random().nextInt(this.numberOfCities);
+        //sarah start at city 0.
+        this.initialReference = 0;
+        this.thiefSolution = new Solution();
     }
 
     public void setThiefSolution(Solution thiefSolution) {
@@ -127,17 +126,9 @@ public class AntForTravellingThief extends Ant<Integer, TravellingThiefEnvironme
     public List<Integer> getNeighbourhood(TravellingThiefEnvironment environment) {
         List<Integer> neighbourhood = new ArrayList<>();
 
-        //modified by sarah, if neighbourhood is the same size as the number of cities it means that the ant hasn't visited anywhere yet
-        //so in this case set the neighbour to the first city to make sure it gets visited first
-        if(this.getVisited().size() == 0){
-            //the ant hasn't visited anywhere yet, so only give it city 0 to select from
-            neighbourhood.add(0);
-        }
-        else {
-            for (int cityIndex = 0; cityIndex < environment.getNumberOfCities(); cityIndex += 1) {
-                if (!this.isNodeVisited(cityIndex)) {
-                    neighbourhood.add(cityIndex);
-                }
+        for (int cityIndex = 0; cityIndex < environment.getNumberOfCities(); cityIndex += 1) {
+            if (!this.isNodeVisited(cityIndex)) {
+                neighbourhood.add(cityIndex);
             }
         }
         return neighbourhood;
