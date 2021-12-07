@@ -17,17 +17,21 @@ class Runner {
 
     public static void main(String[] args) throws IOException {
 
-        //List<String> instanceToRun = Arrays.asList("a280-n279");
-        //List<String> instanceToRun = Arrays.asList("a280-n1395");
-          List<String> instanceToRun = Arrays.asList("a280-n2790");
-        //List<String> instanceToRun = Arrays.asList("fnl4461-n4460");
-        //List<String> instanceToRun = Arrays.asList("fnl4461-n22300");
-        //List<String> instanceToRun = Arrays.asList("fnl4461-n44600");
+        //List<String> instanceToRun = Arrays.asList("a280-n279");           //500
+       // List<String> instanceToRun = Arrays.asList("a280-n1395");
+       // List<String> instanceToRun = Arrays.asList("a280-n2790");
+       // List<String> instanceToRun = Arrays.asList("fnl4461-n4460");       //10 iterations
+       // List<String> instanceToRun = Arrays.asList("fnl4461-n22300");      //10 iterations
+       // List<String> instanceToRun = Arrays.asList("fnl4461-n44600");      //10 iterations
         //List<String> instanceToRun = Arrays.asList("pla33810-n33809");
         //List<String> instanceToRun = Arrays.asList("pla33810-n169045");
         //List<String> instanceToRun = Arrays.asList("pla33810-n338090");
         //List<String> instanceToRun = Arrays.asList("test-example-n4");
-        //List<String> instanceToRun = Competition.INSTANCES;
+        List<String> instanceToRun = Competition.INSTANCES;
+
+        //String filePrefix = Competition.TEAM_NAME;
+        //use experiment name to make it easier to parse results
+        String filePrefix = "5_50_500_Weighted_H2.5_P1";
 
         for (String instance : instanceToRun) {
 
@@ -62,8 +66,7 @@ class Runner {
 
             File dir = new File("results");
             if (!dir.exists()) dir.mkdirs();
-            Util.writeSolutions("results", Competition.TEAM_NAME, problem, nds);
-
+            Util.writeSolutions("results", filePrefix, problem, nds);
 
         }
 

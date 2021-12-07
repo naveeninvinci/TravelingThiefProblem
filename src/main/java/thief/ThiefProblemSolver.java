@@ -21,6 +21,10 @@ import java.util.logging.Logger;
  * Previously, you have to properly configure your solver by assigning it a
  * Colony, an Environment and Daemon Actions (if required).
  *
+ * Changes made by Sarah
+ * - Holds a list of non-dominated solutions as well as the best tour
+ * - Calls our ThiefPerformanceTracker to update metrics based on non-dominated solutions
+ *
  * @param <C> Class for components of a solution.
  * @param <E> Class representing the Environment.
  * @author Carlos G. Gavidia
@@ -85,18 +89,6 @@ public class ThiefProblemSolver<C, E extends Environment> extends AcoProblemSolv
         colony.setTimeLimit(timeLimit);
     }
 
-    /**
-     * Adds a list of Daemon Actions for the current solver. A daemon action is a global procedure applied
-     * while algorithm execution.
-     *
-     * @param daemonActions Daemon actions.
-     */
-//    @SafeVarargs
-//    public final void addDaemonActions(DaemonAction<C, E>... daemonActions) {
-//        for (DaemonAction<C, E> daemonAction : daemonActions) {
-//            this.addDaemonAction(daemonAction);
-//        }
-//    }
 
     /**
      * Adds a Daemon Action for the current solver.
@@ -128,6 +120,7 @@ public class ThiefProblemSolver<C, E extends Environment> extends AcoProblemSolv
         ThiefPerformanceTracker<C, E> performanceTracker = (ThiefPerformanceTracker<C, E>) kickOffColony(this.antColony, this.environment,
                 executionStartTime);
 
+        //Sarah - changed to call thief update - this updates non-dominated solutions
         this.updateThiefGlobalMetrics(executionStartTime, performanceTracker);
 
 
@@ -173,6 +166,11 @@ public class ThiefProblemSolver<C, E extends Environment> extends AcoProblemSolv
         return performanceTracker;
     }
 
+    /**
+     * Added by Sarah to update the list of non-dominated solutions
+     * @param executionStartTime
+     * @param performanceTracker
+     */
     protected void updateThiefGlobalMetrics(Instant executionStartTime, ThiefPerformanceTracker<C, E> performanceTracker) {
         this.bestSolution = performanceTracker.getBestSolution();
         this.bestSolutionCost = performanceTracker.getBestSolutionCost();

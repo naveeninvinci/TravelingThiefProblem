@@ -8,7 +8,9 @@ import java.util.logging.Logger;
 
 /**
  * The Environment type is for storing problem-specific information. In the TSP scenario, is only related
- * to the number of cities.  This contains the TravellingThiefProblem class which holds all info for that problem
+ * to the number of cities.
+ *
+ * Sarah - This contains the TravellingThiefProblem class which holds all info for that problem
  */
 public class TravellingThiefEnvironment extends Environment {
 

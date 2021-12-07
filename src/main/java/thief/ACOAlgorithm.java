@@ -21,32 +21,33 @@ public class ACOAlgorithm implements Algorithm {
 
     public List<Solution> solve(TravelingThiefProblem problem) {
         logger.info("In Ant Algorithm");
-        List<Solution> solutions = new ArrayList<>();
 
-        double[][] problemRepresentation = problem.coordinates;
         EdgeWeightType edgeWeightType = EdgeWeightType.EUCLIDEAN_DISTANCE;
+        //sarah - contains configuration info for our thief problem, passing in the gecco object to the isula object
         TravellingThiefEnvironment environment = new TravellingThiefEnvironment(edgeWeightType, problem);
 
+        //sarah - this has all the settings, like number of iterations, ants, alpha, beta params, evaporation rate
         ThiefProblemConfiguration configurationProvider = new ThiefProblemConfiguration(environment);
         AntColony<Integer, TravellingThiefEnvironment> colony = getAntColony(configurationProvider);
 
-        //AcoProblemSolver<Integer, TravellingThiefEnvironment> solver = new AcoProblemSolver<>();
+        //our thief problem solver, replacing the AcoProblemSolver
         ThiefProblemSolver<Integer, TravellingThiefEnvironment> solver = new ThiefProblemSolver<>();
         try {
             solver.initialize(environment, colony, configurationProvider);
         } catch (ConfigurationException e) {
             e.printStackTrace();
         }
-        solver.addDaemonActions(new StartPheromoneMatrix<>(),
-                new PerformEvaporation<>());
+        solver.addDaemonActions(new StartPheromoneMatrix<>(), new PerformEvaporation<>());
 
         solver.addDaemonActions(getPheromoneUpdatePolicy());
 
+        //Sarah - RandomNodeSelection class creates the probability matrix and picks which node the Ant is going to visit next
         solver.getAntColony().addAntPolicies(new RandomNodeSelection<>());
 
-        //this should be called after each ant has finished its tour
+        //Sarah - this should be called after each ant has finished its tour
         solver.getAntColony().addAntPolicies(new PackingPlanCreator<>());
         try {
+            //run the algorithm
             solver.solveProblem();
         } catch (ConfigurationException e) {
             e.printStackTrace();

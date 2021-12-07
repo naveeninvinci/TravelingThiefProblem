@@ -14,19 +14,19 @@ public class Competition {
             // a280_n1395_uncorr-similar-weights_05.ttp
             "a280-n1395",
             // a280_n2790_uncorr_10.ttp
-            "a280-n2790",
+            "a280-n2790"
             // fnl4461_n4460_bounded-strongly-corr_01.ttp
-            "fnl4461-n4460",
+           // "fnl4461-n4460",
             // fnl4461_n22300_uncorr-similar-weights_05.ttp
-            "fnl4461-n22300",
+          //  "fnl4461-n22300",
             // fnl4461_n44600_uncorr_10.ttp
-            "fnl4461-n44600",
+          //  "fnl4461-n44600"
             // pla33810_n33809_bounded-strongly-corr_01.ttp
-            "pla33810-n33809",
+           // "pla33810-n33809",
             // pla33810_n169045_uncorr-similar-weights_05.ttp
-            "pla33810-n169045",
+           // "pla33810-n169045",
             // pla33810_n338090_uncorr_10.ttp
-            "pla33810-n338090"
+           // "pla33810-n338090"
 
     ));
 

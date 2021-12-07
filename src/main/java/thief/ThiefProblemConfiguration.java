@@ -37,7 +37,7 @@ public class ThiefProblemConfiguration implements ConfigurationProvider {
     public int getNumberOfAnts() {
         //sarah
         //return 2;
-        return 30;
+        return 50;
     }
 
     public double getEvaporationRatio() {

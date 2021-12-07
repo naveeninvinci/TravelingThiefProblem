@@ -9,8 +9,14 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * Modified from the default TSP version here: https://github.com/cptanalatriste/aco-tsp
+ *
  * An specialized Ant for building solutions for the TSP problem. It is designed according the algorithm described in
  * Section 6.3 of Clever Algorithms by Jason Brownlee.
+ *
+ * Changes made by Sarah
+ * - Ant always starts at city 1
+ * - the Ant needs to store a thief solution as well as the best tour, the thief solution holds the packing plan, time, profit
  */
 public class AntForTravellingThief extends Ant<Integer, TravellingThiefEnvironment> {
 

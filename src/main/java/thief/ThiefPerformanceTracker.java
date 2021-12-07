@@ -30,6 +30,8 @@ public class ThiefPerformanceTracker<C, E extends Environment> extends Performan
      * Updates the information of the best solution produced with the solutions
      * produced by the Colony.
      *
+     * Modified by Sarah to hold a list of non-dominated solutions.
+     *
      * @param iterationTimeInSeconds Time spent during the iteration.
      * @param environment            Environment where the solutions where produced.
      */
@@ -76,7 +78,7 @@ public class ThiefPerformanceTracker<C, E extends Environment> extends Performan
                 " Global solution cost: " + bestSolutionCost);
         logger.fine(" Global solution cost: " + bestSolutionCost + " Stored solution: " + bestSolution + " Solution as String: " + bestSolutionAsString);
 
-        //sarah thief
+        //sarah -  thief modifications
         //try and add solution to our set of solutions
         AntForTravellingThief antThief = (AntForTravellingThief)bestAnt;
         Solution bestThiefSolution = antThief.getThiefSolution();
@@ -134,7 +136,7 @@ public class ThiefPerformanceTracker<C, E extends Environment> extends Performan
     }
 
     /**
-     * Add a solution to the non-dominated set
+     * Add a solution to the non-dominated set - this is the code from gecco
      * @param s The solution to be added.
      * @return true if the solution was indeed added. Otherwise false.
      */
