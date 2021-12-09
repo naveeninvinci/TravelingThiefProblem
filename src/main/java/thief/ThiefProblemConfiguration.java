@@ -37,9 +37,10 @@ public class ThiefProblemConfiguration implements ConfigurationProvider {
     public int getNumberOfAnts() {
         //sarah
         //return 2;
-        return 50;
+        return 30;
     }
 
+    //the pheromone matrix is multiplied by this after each iteration
     public double getEvaporationRatio() {
         return 1 - 0.6;
     }
@@ -60,6 +61,7 @@ public class ThiefProblemConfiguration implements ConfigurationProvider {
         return 2.5;
     }
 
+    //see RandomNodeSelection.getProbabilitiesForNeighbourhood for where this is used
     @Override
     public double getPheromoneImportance() {
         return 1.0;

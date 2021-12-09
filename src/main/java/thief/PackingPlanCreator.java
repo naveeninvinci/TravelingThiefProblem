@@ -4,9 +4,7 @@ import isula.aco.*;
 import model.Solution;
 import model.TravelingThiefProblem;
 
-import javax.sound.midi.SysexMessage;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * This class works out a packing plan for a particular tour.
@@ -22,7 +20,7 @@ public class PackingPlanCreator<C, E extends Environment> extends AntPolicy<C, E
     private Random random = new Random();
 
     //switches between random and weighted algorithm
-    private Boolean useRandomPackingPlan = Boolean.FALSE;
+    private Boolean useRandomPackingPlan = Boolean.TRUE;
 
     //profit and time are raised to power of this coefficient
     private int alphaPower = 2;
@@ -116,17 +114,9 @@ public class PackingPlanCreator<C, E extends Environment> extends AntPolicy<C, E
 
         //now go through and score each item
         for (int i = 0; i < problem.numOfItems; i++) {
-//            System.out.println("\nItem " + i);
-              //System.out.println("Weight " + problem.weight[i]);
-             // System.out.println("Profit " + problem.profit[i]);
-//            System.out.println("City Of Item " + cityOfItem[i]);
-            //System.out.println("Distance from city to end " + distanceFromCityToEnd.get(cityOfItem[i]));
 
             double weight = Math.pow(problem.weight[i], alphaPower);
             double profit = Math.pow(problem.profit[i], alphaPower);
-
-            //System.out.println("Weight after " + weight + " alpha " + alphaPower);
-           // System.out.println("Profit after" + profit);
 
             double distanceToEnd = distanceFromCityToEnd.get(cityOfItem[i]);
             Double score = 0.0;
@@ -141,12 +131,8 @@ public class PackingPlanCreator<C, E extends Environment> extends AntPolicy<C, E
             scoresMap.put(i, score);
         }
 
-       // System.out.println("Scores" + scores);
-       // System.out.println("Scores map" + scoresMap);
-
         //now sort items by scores with best items at the top
         HashMap<Integer, Double> sortedScores = this.sortByValueDescending(scoresMap);
-        //System.out.println("Sorted scores map" + sortedScores);
 
         int weightOfKnapsack = 0;
 
@@ -168,8 +154,6 @@ public class PackingPlanCreator<C, E extends Environment> extends AntPolicy<C, E
             if(weightOfKnapsack == problem.maxWeight){ break;}
         }
 
-      //  System.out.println("packing plan " + packingPlan);
-
         return packingPlan;
 
 
@@ -187,25 +171,5 @@ public class PackingPlanCreator<C, E extends Environment> extends AntPolicy<C, E
 
         return reverseSortedMap;
     }
-
-    // function to sort hashmap by values
-    public static HashMap<Integer, Double> sortByValue(HashMap<Integer, Double> hm)
-    {
-        HashMap<Integer, Double> temp
-                = hm.entrySet()
-                .stream()
-                .sorted((i1, i2)
-                        -> i1.getValue().compareTo(
-                        i2.getValue()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1, LinkedHashMap::new));
-
-        return temp;
-    }
-
-
-
 }
 

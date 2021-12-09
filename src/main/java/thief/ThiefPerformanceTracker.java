@@ -3,11 +3,9 @@ package thief;
 import isula.aco.*;
 import isula.aco.exception.SolutionConstructionException;
 import model.Solution;
-
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class ThiefPerformanceTracker<C, E extends Environment> extends PerformanceTracker<C, E> {
 
@@ -84,14 +82,6 @@ public class ThiefPerformanceTracker<C, E extends Environment> extends Performan
         Solution bestThiefSolution = antThief.getThiefSolution();
         Boolean isAdded = add(bestThiefSolution);
 
-        if(isAdded) {
-            //logger.info("Added solution: " + bestThiefSolution.toString());
-        }
-        else{
-            //logger.info("Did not add solution: " + bestThiefSolution.toString());
-        }
-
-       // logger.info("Best solutions " + this.getBestSolutions());
         logger.info("Best solutions size " + this.getBestSolutions().size());
     }
 

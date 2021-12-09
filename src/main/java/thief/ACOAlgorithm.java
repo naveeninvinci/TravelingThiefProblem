@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Extends the Gecco interface.  Sets up the Ant Colony and associated daemon actions, such as laying down pheromone
+ * policy and kicks off the algorithm.
+ */
 public class ACOAlgorithm implements Algorithm {
 
     private static Logger logger = Logger.getLogger(ACOAlgorithm.class.getName());
@@ -74,10 +78,11 @@ public class ACOAlgorithm implements Algorithm {
                 AntForTravellingThief thiefAnt = (AntForTravellingThief)ant;
                 //want to maximise profit and minimise time
                 double pheromoneDeposit = thiefAnt.getThiefSolution().profit/thiefAnt.getThiefSolution().time;
+                //double pheromoneDeposit = thiefAnt.getThiefSolution().profit;
                 return pheromoneDeposit;
             }
         };
-    }
+    }   
 
     /**
      * Produces an Ant Colony instance for the TSP problem.

@@ -1,53 +1,50 @@
 GECCO 2019 Competition - Bi-objective Traveling Thief Problem
+Nature Inspired Coursework, TEAM INVINCIBLES
 ============================================================
-
-Please have a look at the competition outline `Here 
-<https://www.egr.msu.edu/coinlab/blankjul/gecco19-thief/>`_.
 
 Requirements
 ------------------------------------------------------------
 - Java 8
 - (Maven)
 
-Installation
+To Run
 ------------------------------------------------------------
-
-First, the repository needs to be cloned from GitHub:
-
-.. code-block:: bash
-
-    git clone https://github.com/julesy89/gecco19-thief
-
-Feel free to use the IDE of your choice and import the Maven Project.
-
+- The Test Instances to run the algorithm against are specified within the Runner.java class.  Default is to run the smaller test instances with 280 cities.
+- Execute the Runner.java class (we did this within the IntelliJ IDE).
+- This will create the following files in the results folder:
+          - INVINCIBLES_<test instance name>.f - the time and profit for each solution
+          - INVINCIBLES_<test instance name>.x - the packing plan and route plan
 
 Structure
 ------------------------------------------------------------
-
-In the following the project structure is explained:
+We re-used the provided Gecco competition starting framework and extended the isula ACO framework.
+Code written by Invincibles is in the thief folder.
 
 ::
 
-    gecco19-thief
-    ├── Runner.java: Execute an algorithm on all competition instance and to save the file in the derired format.
-    ├── Competition.java: Contains the instance names to be solved and the maximum limit of solutions to submit.
-    ├── model
-        ├── TravelingThiefProblem.java: The problem object used to evaluate the problem for a given tour and packing plan.
-        ├── Solution.java: Object to store the results of the evaluate function.
-        └── Solution.java: NonDominatedSet.java: Example implementation of a non-dominated set. Can be done faster/better.
-    ├── algorithms
-        ├── Algorithm: Interface for the algorithm to be implemented from.
-        ├── ExhaustiveSearch: Solves the problem exhaustively which means iterating over all possible tours and packing plans.
-        └── RandomLocalSearch: Example algorithm to randomly fix a tour and then iterate over possible packing plans.
-
-
-
-Getting Started
-------------------------------------------------------------
-
-Please have a look at our implementations of ExhaustiveSearch and RandomLocalSearch. The project should provide a starting point to get familiar with the problem and prototype quickly new ideas.
-However, for this competition you have the freedom to use whatever you need, e.g. speed up the evaluation function, reimplement the problem in C, ...
-
-Again, the competition details can be found `Here
-<https://www.egr.msu.edu/coinlab/blankjul/gecco19-thief/>`_.
+    TravellingThiefProblem
+    ├── docs:  Documentation for the GECCO competition
+    ├── experiment_results:  Results of team experiments
+    ├── results:  Output folder for results of running the algorithm
+    ├── submissions:  Competition submissions from all teams, including the Invicibles submission.
+    ├── target:  Compiled classes
+    ├── src:
+        ├── Runner.java: Execute an algorithm on specified test instances and save the file in the desired format.
+        ├── Competition.java: Contains the instance names to be solved and the maximum limit of solutions to submit.
+        ├── model
+            ├── TravelingThiefProblem.java: The problem object used to evaluate the problem for a given tour and packing plan.
+            ├── Solution.java: Object to store the results of the evaluate function.
+            └── Solution.java: NonDominatedSet.java: Example implementation of a non-dominated set. Can be done faster/better.
+        ├── algorithms
+            ├── Algorithm: Interface for the algorithm to be implemented from.
+            ├── ExhaustiveSearch: Solves the problem exhaustively which means iterating over all possible tours and packing plans.
+            └── RandomLocalSearch: Example algorithm to randomly fix a tour and then iterate over possible packing plans.
+        ├── thief:  this is the package for all INVINCIBLES code
+            ├── ACOAlgorithm.java:  Extends the Gecco algorithm interface, takes the thief problem, sets up the Ant Colony and kicks them off.
+            ├── AntForTravellingThief.java:  Extends the Isula Ant with Thief behaviours, such as our solution cost etc.
+            ├── PackingPlanCreator.java:  Creates the packing plan.
+            ├── ThiefPerformanceTracker.java:  Updates the set of non-dominated solutions after each iteration.
+            ├── ThiefProblemConfiguration.java:  Contains configuration settings, such as global pheromone importance.
+            ├── ThiefProblemSolver.java:  Is the one in charge of making a colony of ants to traverse an environment in order to generate solutions.
+            ├── TravellingThiefEnvironment.java:  Stores problem specific information, stores the gecco thief problem.
 
